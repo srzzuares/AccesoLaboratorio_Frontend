@@ -7,14 +7,9 @@ import NavAdmin from './components/NavbarAdmin'
 function App() {
 
   return (
-    <div className='App'>
-      <BrowserRouter>
-        <NavAdmin/>
-        <Routes>
-          <Route/>
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <>
+      <Auth/>
+    </>
   )
 }
 
