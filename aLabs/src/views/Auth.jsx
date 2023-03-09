@@ -6,7 +6,7 @@ export const Auth = () => {
         <Form className='login'>
             <h4>Iniciar Sesión</h4>
             <Form.Group className='' controlId='formBasicEmail'>
-                <Form.Label>Cuenta</Form.Label>
+                <Form.Label>Usuario</Form.Label>
                 <Form.Control type='email' placeholder='Ingrese su cuenta'/>
             </Form.Group>
             <Form.Group className='' controlId='formBasicPassword'>
