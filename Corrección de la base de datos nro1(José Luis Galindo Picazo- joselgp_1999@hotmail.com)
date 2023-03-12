@@ -1,0 +1,332 @@
+CREATE DATABASE  IF NOT EXISTS `mydb` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `mydb`;
+-- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
+--
+-- Host: localhost    Database: mydb
+-- ------------------------------------------------------
+-- Server version	8.0.31
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `alumnos`
+--
+
+DROP TABLE IF EXISTS `alumnos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `alumnos` (
+  `idAlumnos` int NOT NULL AUTO_INCREMENT COMMENT 'Id generado de manera automatica en la insercion una nueva entrada',
+  `Matricula` int NOT NULL COMMENT 'Matricula del alumno',
+  `Estatus` enum('activo','inactivo') DEFAULT 'activo' COMMENT 'Estatus de la persona',
+  `IdGrupo` int DEFAULT NULL,
+  `IdDatos_Persona` int DEFAULT NULL,
+  PRIMARY KEY (`idAlumnos`),
+  UNIQUE KEY `idAlumnos_UNIQUE` (`idAlumnos`),
+  KEY `IdGrupo_idx` (`IdGrupo`),
+  KEY `IdDatos_Persona_idx` (`IdDatos_Persona`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='Datos generales de los alumnos';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `alumnos`
+--
+
+LOCK TABLES `alumnos` WRITE;
+/*!40000 ALTER TABLE `alumnos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `alumnos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bitacora`
+--
+
+DROP TABLE IF EXISTS `bitacora`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bitacora` (
+  `idBitacora` int NOT NULL AUTO_INCREMENT,
+  `IdPersonal` int NOT NULL,
+  `IdLaboratorio` int NOT NULL,
+  `IdAlumno` int NOT NULL,
+  `IdRecursoLaboratorio` int NOT NULL,
+  `Fecha_Entrada` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Fecha_Salida` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Bitacoracol` varchar(80) NOT NULL,
+  PRIMARY KEY (`idBitacora`),
+  UNIQUE KEY `idBitacora_UNIQUE` (`idBitacora`),
+  KEY `idPersonal_idx` (`IdPersonal`),
+  KEY `idLaboratorio_idx` (`IdLaboratorio`),
+  KEY `idAlumno_idx` (`IdAlumno`),
+  KEY `idRecursosLaboratorio_idx` (`IdRecursoLaboratorio`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bitacora`
+--
+
+LOCK TABLES `bitacora` WRITE;
+/*!40000 ALTER TABLE `bitacora` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bitacora` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `carrera`
+--
+
+DROP TABLE IF EXISTS `carrera`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `carrera` (
+  `idCarrera` int NOT NULL AUTO_INCREMENT,
+  `Nombre` varchar(150) DEFAULT NULL,
+  `Abreviatura` varchar(10) DEFAULT NULL,
+  `Nivel` enum('TSU','ING') DEFAULT NULL,
+  `Estatus` enum('activo','inactivo') DEFAULT 'activo',
+  PRIMARY KEY (`idCarrera`),
+  UNIQUE KEY `idCarrera_UNIQUE` (`idCarrera`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `carrera`
+--
+
+LOCK TABLES `carrera` WRITE;
+/*!40000 ALTER TABLE `carrera` DISABLE KEYS */;
+INSERT INTO `carrera` VALUES (1,'Desarrollo de Software Multiplataforma  ','DSM','TSU','activo');
+/*!40000 ALTER TABLE `carrera` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `clases`
+--
+
+DROP TABLE IF EXISTS `clases`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `clases` (
+  `idClases` int NOT NULL AUTO_INCREMENT,
+  `Dia` enum('lunes','martes','miercoles','jueves','viernes','sabado') DEFAULT NULL,
+  `Hora_Inicio` date DEFAULT NULL,
+  `Hora_Final` date DEFAULT NULL,
+  `Actividad` varchar(45) DEFAULT NULL,
+  `Materia` varchar(45) DEFAULT NULL,
+  `Estatus` enum('activo','inactivo') DEFAULT 'activo',
+  `IdPeriodo` int NOT NULL,
+  `IdLaboratorio` int NOT NULL,
+  `IdPersonal` int NOT NULL,
+  `IdGrupo` int NOT NULL,
+  PRIMARY KEY (`idClases`),
+  UNIQUE KEY `idClases_UNIQUE` (`idClases`),
+  KEY `idPeriodo_idx` (`IdPeriodo`),
+  KEY `IdPersonal_idx` (`IdPersonal`),
+  KEY `IdGrupo_idx` (`IdGrupo`),
+  KEY `IdLaboratorio_idx` (`IdLaboratorio`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clases`
+--
+
+LOCK TABLES `clases` WRITE;
+/*!40000 ALTER TABLE `clases` DISABLE KEYS */;
+/*!40000 ALTER TABLE `clases` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `datos_persona`
+--
+
+DROP TABLE IF EXISTS `datos_persona`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `datos_persona` (
+  `idDatos_persona` int NOT NULL AUTO_INCREMENT COMMENT 'Id generado de manera automatica en la insercion una nueva entrada',
+  `Titulo_Profesional` varchar(10) DEFAULT NULL COMMENT 'Titulo de la persona, en caso de poseerlo',
+  `Apellido_P` varchar(45) NOT NULL COMMENT 'Apellido partero de la persona (Obligatorio)',
+  `Apellido_M` varchar(45) DEFAULT NULL COMMENT 'Apellido materno de la persona (Opcional)',
+  `Nombre` varchar(45) NOT NULL COMMENT 'Nombre/s de la persona',
+  `Genero` enum('F','M') DEFAULT NULL COMMENT 'Genero de la persona(Opcional)',
+  `Fecha_Nacimiento` date NOT NULL,
+  `Estatus` enum('activo','inactivo') DEFAULT 'activo' COMMENT 'Estatus de la persona',
+  `Foto` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idDatos_persona`),
+  UNIQUE KEY `idDatos_persona_UNIQUE` (`idDatos_persona`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='Datos generales de todo el personal del planel y del alumnado';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `datos_persona`
+--
+
+LOCK TABLES `datos_persona` WRITE;
+/*!40000 ALTER TABLE `datos_persona` DISABLE KEYS */;
+/*!40000 ALTER TABLE `datos_persona` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `grupos`
+--
+
+DROP TABLE IF EXISTS `grupos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `grupos` (
+  `idGrupos` int NOT NULL AUTO_INCREMENT COMMENT 'Id generado de manera automatica en la insercion una nueva entrada',
+  `Estatus` enum('activo','inactivo') NOT NULL DEFAULT 'activo' COMMENT 'Estatus del grupo',
+  `Grado` varchar(2) NOT NULL COMMENT 'Grado del grupo',
+  `Grupo` varchar(1) NOT NULL,
+  `IdCarrera` int NOT NULL,
+  `IdPeriodo` int NOT NULL,
+  PRIMARY KEY (`idGrupos`),
+  UNIQUE KEY `idGrupos_UNIQUE` (`idGrupos`),
+  KEY `IdCarrera_idx` (`IdCarrera`),
+  KEY `idPeriodo_idx` (`IdPeriodo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grupos`
+--
+
+LOCK TABLES `grupos` WRITE;
+/*!40000 ALTER TABLE `grupos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `grupos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `laboratorio`
+--
+
+DROP TABLE IF EXISTS `laboratorio`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `laboratorio` (
+  `idLaboratorio` int NOT NULL AUTO_INCREMENT,
+  `Nombre` varchar(45) DEFAULT NULL,
+  `Descripcion` varchar(45) DEFAULT NULL,
+  `Ubicacion` varchar(45) DEFAULT NULL,
+  `Cantidad_Esp` varchar(45) DEFAULT NULL,
+  `IdPersonal` int DEFAULT NULL,
+  PRIMARY KEY (`idLaboratorio`),
+  UNIQUE KEY `idLaboratorio_UNIQUE` (`idLaboratorio`),
+  KEY `idPersonal_idx` (`IdPersonal`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `laboratorio`
+--
+
+LOCK TABLES `laboratorio` WRITE;
+/*!40000 ALTER TABLE `laboratorio` DISABLE KEYS */;
+/*!40000 ALTER TABLE `laboratorio` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `periodo`
+--
+
+DROP TABLE IF EXISTS `periodo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `periodo` (
+  `idPeriodo` int NOT NULL AUTO_INCREMENT,
+  `Fecha_Inicio` date NOT NULL,
+  `Fecha_Final` date NOT NULL,
+  `Estatus` enum('activo','inactivo') NOT NULL DEFAULT 'activo',
+  PRIMARY KEY (`idPeriodo`),
+  UNIQUE KEY `idPeriodo_UNIQUE` (`idPeriodo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `periodo`
+--
+
+LOCK TABLES `periodo` WRITE;
+/*!40000 ALTER TABLE `periodo` DISABLE KEYS */;
+/*!40000 ALTER TABLE `periodo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `personal`
+--
+
+DROP TABLE IF EXISTS `personal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `personal` (
+  `idPersonal` int NOT NULL AUTO_INCREMENT,
+  `Numero_Trabajador` varchar(150) NOT NULL,
+  `Tipo` enum('laboratorista','maestro') NOT NULL,
+  `Estatus` enum('activo','inactivo') NOT NULL DEFAULT 'activo',
+  `IdCarrera` int NOT NULL,
+  `IdDatosPersona` int NOT NULL,
+  PRIMARY KEY (`idPersonal`),
+  UNIQUE KEY `idPersonal_UNIQUE` (`idPersonal`),
+  KEY `IdCarrera_idx` (`IdCarrera`),
+  KEY `IdDatosPersona_idx` (`IdDatosPersona`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `personal`
+--
+
+LOCK TABLES `personal` WRITE;
+/*!40000 ALTER TABLE `personal` DISABLE KEYS */;
+/*!40000 ALTER TABLE `personal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `recursos_laboratorio`
+--
+
+DROP TABLE IF EXISTS `recursos_laboratorio`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `recursos_laboratorio` (
+  `idRecursos_Laboratorio` int NOT NULL AUTO_INCREMENT,
+  `Nombre` varchar(45) NOT NULL,
+  `No_Serie` varchar(45) NOT NULL,
+  `Descripcion` varchar(45) NOT NULL,
+  `Estado` enum('activo','inactivo') NOT NULL DEFAULT 'activo',
+  `IdLaboratorio` int NOT NULL,
+  PRIMARY KEY (`idRecursos_Laboratorio`),
+  UNIQUE KEY `idRecursos_Laboratorio_UNIQUE` (`idRecursos_Laboratorio`),
+  KEY `IdLaboratorio_idx` (`IdLaboratorio`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `recursos_laboratorio`
+--
+
+LOCK TABLES `recursos_laboratorio` WRITE;
+/*!40000 ALTER TABLE `recursos_laboratorio` DISABLE KEYS */;
+/*!40000 ALTER TABLE `recursos_laboratorio` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-02-28 10:53:21
